@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ramithjayasinghe": {
+      "type": "object",
+      "properties": {
+        "snowflakedemo": {
+          "type": "object",
+          "properties": {
+            "account_identifier": {
+              "type": "string",
+              "description": ""
+            },
+            "user": {
+              "type": "string",
+              "description": ""
+            },
+            "password": {
+              "type": "string",
+              "description": ""
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "account_identifier",
+            "user",
+            "password"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

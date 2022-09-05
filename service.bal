@@ -15,6 +15,11 @@ snowflake:Options options = {
 snowflake:Client snowflakeClient = check new (account_identifier, user, password, options);
 
 # A example service demonstrating how to connect to snowflake database.
+# To learn more about working with databases in ballerina please visit:
+# - https://ballerina.io/learn/by-example/jdbc-query-operation/
+# - https://lib.ballerina.io/ballerinax/java.jdbc/latest
+# - https://central.ballerina.io/ballerinax/snowflake
+#
 # bound to port `9090`
 service / on new http:Listener(9090) {
 
@@ -57,7 +62,7 @@ service / on new http:Listener(9090) {
                                             FROM 
                                                 SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM LI WHERE LI.L_ORDERKEY = ${orderId}`;
         stream<LineItem, error?> results = snowflakeClient->query(sqlQuery);
-        
+
         //Alternative: LineItem[] lineItems[]? report = check from LineItem entry in results select entry;
         LineItem[] lineItems = [];
         check from LineItem entry in results

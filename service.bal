@@ -39,15 +39,10 @@ service / on new http:Listener(9090) {
                                             ORDER BY l_returnflag, l_linestatus`;
 
         stream<PricingSummary, error?> results = snowflakeClient->query(sqlQuery);
+        PricingSummary[]? report = check from PricingSummary entry in results
+            select entry;
 
-        PricingSummary[] report = [];
-
-        check from PricingSummary entry in results
-            do {
-                report.push(entry);
-            };
-
-        return report;
+        return report ?: [];
     }
 
     # returns all line items of a order given the order id
@@ -62,11 +57,15 @@ service / on new http:Listener(9090) {
                                             FROM 
                                                 SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM LI WHERE LI.L_ORDERKEY = ${orderId}`;
         stream<LineItem, error?> results = snowflakeClient->query(sqlQuery);
+        
+        //Alternative: LineItem[] lineItems[]? report = check from LineItem entry in results select entry;
         LineItem[] lineItems = [];
         check from LineItem entry in results
             do {
                 lineItems.push(entry);
             };
+
+        check results.close();
 
         return lineItems;
     }
